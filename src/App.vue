@@ -1,16 +1,49 @@
 <template>
 	<div class="container">
 		<MyHeader title="Task Tracker" />
+		<MyTasks :tasks="tasks" />
 	</div>
 </template>
 
 <script>
 import MyHeader from './components/MyHeader.vue';
+import MyTasks from './components/MyTasks.vue';
 
 export default {
 	name: 'App',
 	components: {
 		MyHeader,
+		MyTasks,
+	},
+
+	data() {
+		return {
+			tasks: [],
+		};
+	},
+
+	// loads some data when your page/components loads in onCreated
+	created() {
+		this.tasks = [
+			{
+				id: 1,
+				text: "Doctor's Appointment",
+				day: 'April 10th at 4:30pm',
+				reminder: true,
+			},
+			{
+				id: 2,
+				text: "Michael's Birthday",
+				day: 'April 16th at 10:00am',
+				reminder: true,
+			},
+			{
+				id: 3,
+				text: 'Workout Day',
+				day: 'April 18th, at 7:00pm',
+				reminder: false,
+			},
+		];
 	},
 };
 </script>

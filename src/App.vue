@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<MyHeader title="Task Tracker" />
-		<MyTasks :tasks="tasks" />
+		<MyTasks @delete-task="deleteTask" :tasks="tasks" />
 	</div>
 </template>
 
@@ -20,6 +20,14 @@ export default {
 		return {
 			tasks: [],
 		};
+	},
+
+	methods: {
+		deleteTask(id) {
+			if (confirm('Are you sure?')) {
+				this.tasks = this.tasks.filter(task => task.id !== id);
+			}
+		},
 	},
 
 	// loads some data when your page/components loads in onCreated

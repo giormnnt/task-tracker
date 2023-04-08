@@ -14,7 +14,7 @@ export default {
 
 	methods: {
 		onClick() {
-			console.log(this.color);
+			this.$emit('btn-click');
 		},
 	},
 };

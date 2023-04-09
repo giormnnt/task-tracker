@@ -41,11 +41,20 @@ export default {
 			this.showAddTask = !this.showAddTask;
 		},
 
-		addTask(task) {
-			this.tasks = [...this.tasks, task];
+		async addTask(task) {
+			const res = await fetch('api/tasks', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(task),
+			});
+
+			const data = await res.json();
+			this.tasks = [...this.tasks, data];
 		},
 
-		deleteTask(id) {
+		async deleteTask(id) {
 			if (confirm('Are you sure?')) {
 				this.tasks = this.tasks.filter(task => task.id !== id);
 			}
@@ -56,30 +65,23 @@ export default {
 				task.id === id ? { ...task, reminder: !task.reminder } : task
 			);
 		},
+
+		async fetchTasks() {
+			const res = await fetch('api/tasks');
+			const data = await res.json();
+			return data;
+		},
+
+		async fetchTask(id) {
+			const res = await fetch(`api/tasks/${id}`);
+			const data = await res.json();
+			return data;
+		},
 	},
 
 	// loads some data when your page/components loads in onCreated
-	created() {
-		this.tasks = [
-			{
-				id: 1,
-				text: "Doctor's Appointment",
-				day: 'April 10th at 4:30pm',
-				reminder: true,
-			},
-			{
-				id: 2,
-				text: "Michael's Birthday",
-				day: 'April 16th at 10:00am',
-				reminder: true,
-			},
-			{
-				id: 3,
-				text: 'Workout Day',
-				day: 'April 18th, at 7:00pm',
-				reminder: false,
-			},
-		];
+	async created() {
+		this.tasks = await this.fetchTasks();
 	},
 };
 </script>
